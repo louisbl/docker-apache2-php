@@ -10,12 +10,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php
 
 RUN sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
 RUN sed -i "s/phar.readonly.*/phar.readonly = Off/g" /etc/php5/apache2/php.ini
-RUN sed -i "s/ErrorLog.*/ErrorLog \"|more\"/g" /etc/apache2/apache2.conf
+# RUN sed -i "s/ErrorLog.*/ErrorLog \"|$ \/bin\/more\"/g" /etc/apache2/apache2.conf
+# ADD build/stdout-log.conf /etc/apache2/conf-enabled/stdout-log.conf
 
 RUN /usr/sbin/enable_insecure_key
 
 RUN mkdir /etc/service/apache
+RUN mkdir /etc/service/logviewer
 ADD build/apache.sh /etc/service/apache/run
+ADD build/stdout-log.sh /etc/service/logviewer/run
 
 EXPOSE 80
 CMD ["/sbin/my_init"]
