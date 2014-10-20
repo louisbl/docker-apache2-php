@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.13
+FROM phusion/baseimage:0.9.15
 MAINTAINER louisbl <louis@beltramo.me>
 
 # Set correct environment variables.
