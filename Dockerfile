@@ -11,8 +11,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php
 # configure apache and php
 RUN mv /etc/php5/apache2/php.ini /etc/php5/apache2/php.ini.bak
 RUN ln -s /usr/share/php5/php.ini-development /etc/php5/apache2/php.ini
+
 RUN sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
 RUN sed -i "s/phar.readonly.*/phar.readonly = Off/g" /etc/php5/apache2/php.ini
+RUN sed -i "s/^;extension=mysql.so/extension=mysql.so/" /etc/php5/apache2/php.ini
+RUN sed -i "s/^;extension=mysqli.so/extension=mysqli.so/" /etc/php5/apache2/php.ini
+RUN sed -i "s/^;extension=mcrypt.so/extension=mcrypt.so/" /etc/php5/apache2/php.ini
+
 RUN sed -i "s/AllowOverride.*/AllowOverride All/g" /etc/apache2/apache2.conf
 RUN a2enmod rewrite ssl
 RUN a2ensite default-ssl
